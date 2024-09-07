@@ -36,11 +36,10 @@ public class Main {
                     hotelHandler.create();
                     break;
                 case 2:
-
+                    hotelHandler.findAll();
                     break;
                 case 3:
-
-                    System.out.println("Adding a new reservation...");
+                    hotelHandler.findById();
                     break;
                 case 4:
                     // Cancel reservation logic

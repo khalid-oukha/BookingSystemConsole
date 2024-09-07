@@ -5,7 +5,9 @@ import org.example.configuration.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class HotelRepositoryImpl implements HotelRepository {
 
@@ -17,10 +19,27 @@ public class HotelRepositoryImpl implements HotelRepository {
             System.out.println("Error establishing connection: " + e.getMessage());
         }
     }
-    @Override
+1    @Override
     public Hotel findById(int id) {
+        String sql = "SELECT * FROM hotels WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                Hotel hotel = new Hotel(name);
+                hotel.setId(id);
+                return hotel;
+            } else {
+                System.out.println("No hotel found with ID: " + id);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding hotel: " + e.getMessage());
+        }
         return null;
     }
+
 
     @Override
     public void create(Hotel hotel) {
@@ -32,4 +51,30 @@ public class HotelRepositoryImpl implements HotelRepository {
             System.out.println("Error creating hotel: " + e.getMessage());
         }
     }
+
+    @Override
+    public HashMap<Integer, Hotel> findAll() {
+        String sql = "SELECT * FROM hotels";
+        HashMap<Integer, Hotel> hotels = new HashMap<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+
+                Hotel hotel = new Hotel(name);
+                hotel.setId(id);
+
+                hotels.put(id, hotel);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error fetching hotels: " + e.getMessage());
+        }
+
+        return hotels;
+    }
+
 }

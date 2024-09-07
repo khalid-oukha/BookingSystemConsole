@@ -4,13 +4,23 @@ import Entities.Hotel;
 import repositories.hotel.HotelRepository;
 import repositories.hotel.HotelRepositoryImpl;
 
+import java.util.HashMap;
+
 public class HotelService {
-    private HotelRepository hotelRepository;
+    private final HotelRepository hotelRepository;
 
     public HotelService() {
         this.hotelRepository = new HotelRepositoryImpl();
     }
     public void create(Hotel hotel) {
         hotelRepository.create(hotel);
+    }
+
+    public HashMap<Integer, Hotel> findAll() {
+        return hotelRepository.findAll();
+    }
+
+    public Hotel findById(int id) {
+        return hotelRepository.findById(id);
     }
 }
