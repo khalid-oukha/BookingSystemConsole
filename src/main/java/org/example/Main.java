@@ -14,8 +14,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        HotelService hotelService = new HotelService(); // Ensure this is initialized
-        HotelHandler hotelHandler = new HotelHandler(hotelService); // Pass it to the handler
+        HotelHandler hotelHandler = new HotelHandler();
 
         int choice;
 
@@ -35,7 +34,6 @@ public class Main {
             switch (choice) {
                 case 1:
                     hotelHandler.create();
-                    System.out.println("Creating new hotel");
                     break;
                 case 2:
 

@@ -10,8 +10,8 @@ public class HotelHandler {
     private HotelService hotelService;
     private Scanner scanner = new Scanner(System.in);
 
-    public HotelHandler(HotelService hotelService) {
-        this.hotelService = hotelService;
+    public HotelHandler() {
+        this.hotelService = new HotelService();
     }
 
     public void create() {

@@ -28,7 +28,6 @@ public class HotelRepositoryImpl implements HotelRepository {
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1,hotel.getHotelName());
             statement.executeUpdate();
-            System.out.println("Hotel created successfully");
         } catch (SQLException e) {
             System.out.println("Error creating hotel: " + e.getMessage());
         }
