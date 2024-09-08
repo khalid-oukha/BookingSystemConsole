@@ -2,6 +2,7 @@ package org.example;
 
 import Entities.Hotel;
 import Handlers.HotelHandler;
+import Handlers.RoomHandler;
 
 import java.util.Scanner;
 
@@ -9,6 +10,7 @@ public class HotelManagementMenu {
     private Scanner scanner;
 
     HotelHandler hotelHandler = new HotelHandler();
+    RoomHandler roomHandler = new RoomHandler();
     public HotelManagementMenu(Scanner scanner) {
         this.scanner = scanner;
     }
@@ -41,8 +43,10 @@ public class HotelManagementMenu {
                     hotelHandler.update(hotel);
                     break;
                 case 2:
+                    roomHandler.findAll(hotel);
                     break;
                 case 3:
+                    roomHandler.create(hotel);
                     break;
                 case 4:
                     break;
@@ -55,7 +59,6 @@ public class HotelManagementMenu {
                 case 8:
                     break;
                 case 9:
-
                     break;
                 case 10:
                     hotelHandler.delete(hotel);

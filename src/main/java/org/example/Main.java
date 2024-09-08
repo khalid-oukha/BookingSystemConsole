@@ -25,7 +25,6 @@ public class Main {
             System.out.println("=    1. Create a New Hotel                                                                      =");
             System.out.println("=    2. Show All Hotels                                                                         =");
             System.out.println("=    3. Manage Existing Hotel                                                                   =");
-            System.out.println("=    0. Return to Main Menu                                                                     =");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
 
@@ -41,18 +40,6 @@ public class Main {
                 case 3:
                     Hotel hotel = hotelHandler.findById();
                     hotelManagementMenu.displayMenu(hotel);
-                    break;
-                case 4:
-                    // Cancel reservation logic
-                    System.out.println("Canceling a reservation...");
-                    break;
-                case 5:
-                    // Modify reservation logic
-                    System.out.println("Modifying a reservation...");
-                    break;
-                case 6:
-                    // Search reservation logic
-                    System.out.println("Searching for a reservation...");
                     break;
                 case 0:
                     System.out.println("Exiting the system. Goodbye!");

@@ -11,14 +11,21 @@ public class Room {
     private Availability availability;
     private Hotel hotel;
 
-    public Room(int number, double price, Availability availability, RoomType type,Hotel hotel) {
+    public Room(int number, double price, RoomType type, Hotel hotel) {
+        this.number = number;
+        this.price = price;
+        this.type = type;
+        this.hotel = hotel;
+        this.availability = Availability.AVAILABLE;
+    }
+
+    public Room(int number, double price, Availability availability, RoomType type, Hotel hotel) {
         this.number = number;
         this.price = price;
         this.availability = availability;
         this.type = type;
         this.hotel = hotel;
     }
-
     public int getNumber() {
         return number;
     }
