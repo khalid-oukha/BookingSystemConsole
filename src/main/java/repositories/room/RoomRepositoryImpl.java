@@ -8,7 +8,6 @@ import org.example.configuration.DatabaseConfig;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class RoomRepositoryImpl implements RoomRepository {
@@ -52,24 +51,26 @@ public class RoomRepositoryImpl implements RoomRepository {
         String sql = "SELECT * FROM rooms WHERE hotel_id = ?";
         List<Room> rooms = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, hotel.getId());
 
-            while (resultSet.next()) {
-                int number = resultSet.getInt("number");
-                double price = resultSet.getDouble("price");
-                Availability availability = Availability.valueOf(resultSet.getString("availability"));
-                RoomType type = RoomType.valueOf(resultSet.getString("type"));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int number = resultSet.getInt("number");
+                    double price = resultSet.getDouble("price");
+                    Availability availability = Availability.valueOf(resultSet.getString("availability"));
+                    RoomType type = RoomType.valueOf(resultSet.getString("type"));
 
-                Room room = new Room(number,price,availability,type,hotel);
-                rooms.add(room);
-
+                    Room room = new Room(number, price, availability, type, hotel);
+                    rooms.add(room);
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Error fetching rooms : " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error fetching rooms: " + e.getMessage());
         }
-        return null;
+        return rooms;
     }
+
 
     @Override
     public void update(Room room) {
