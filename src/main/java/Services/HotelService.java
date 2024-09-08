@@ -23,4 +23,13 @@ public class HotelService {
     public Hotel findById(int id) {
         return hotelRepository.findById(id);
     }
+
+    public Hotel update(Hotel hotel) {
+        hotelRepository.update(hotel);
+        return hotel;
+    }
+
+    public void delete(Hotel hotel) {
+        hotelRepository.delete(hotel);
+    }
 }

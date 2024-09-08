@@ -6,7 +6,10 @@ import java.util.HashMap;
 
 public interface HotelRepository {
 
-    public Hotel findById(int id);
-    public void create(Hotel hotel);
-    public HashMap<Integer, Hotel> findAll();
+    Hotel findById(int id);
+    void create(Hotel hotel);
+    HashMap<Integer, Hotel> findAll();
+    void update(Hotel hotel);
+    void delete(Hotel hotel);
+
 }

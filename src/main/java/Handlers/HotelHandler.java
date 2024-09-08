@@ -1,6 +1,7 @@
 package Handlers;
 
 import Entities.Hotel;
+import Helpers.StringValidator;
 import Services.HotelService;
 
 import java.util.HashMap;
@@ -41,14 +42,32 @@ public class HotelHandler {
         }
     }
 
-    public void findById() {
+    public Hotel findById() {
         System.out.println("Enter hotel ID :");
         int id = scanner.nextInt();
         Hotel hotel = hotelService.findById(id);
         if(hotel == null){
             System.out.println("Hotel not found.");
+            return null;
         }else {
-            System.out.println("Hotel name: " + hotel.getHotelName());
+            return hotel;
         }
+    }
+
+    public Hotel update(Hotel hotel) {
+        System.out.println("Enter hotel New Name:");
+        String name = scanner.nextLine();
+
+        if (StringValidator.isValidString(name)) {
+            hotel.setHotelName(name);
+            return hotelService.update(hotel);
+        } else {
+            System.out.println("Invalid name. It must be between 3 and 200 characters.");
+            return null;
+        }
+    }
+
+    public void delete(Hotel hotel) {
+            hotelService.delete(hotel);
     }
 }

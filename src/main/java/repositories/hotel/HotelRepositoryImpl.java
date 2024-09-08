@@ -19,7 +19,8 @@ public class HotelRepositoryImpl implements HotelRepository {
             System.out.println("Error establishing connection: " + e.getMessage());
         }
     }
-1    @Override
+
+    @Override
     public Hotel findById(int id) {
         String sql = "SELECT * FROM hotels WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -77,4 +78,29 @@ public class HotelRepositoryImpl implements HotelRepository {
         return hotels;
     }
 
+    @Override
+    public void update(Hotel hotel) {
+        String sql = "UPDATE hotels SET name = ? WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1,hotel.getHotelName());
+            statement.setInt(2,hotel.getId());
+            statement.executeUpdate();
+            System.out.println("Hotel updated successfully");
+        }catch (SQLException e) {
+            System.out.println("Error updating hotel: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(Hotel hotel)
+    {
+        String sql = "DELETE FROM hotels WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setInt(1,hotel.getId());
+            statement.executeUpdate();
+            System.out.println("Hotel deleted successfully");
+        }catch (SQLException e) {
+            System.out.println("Error deleting hotel: " + e.getMessage());
+        }
+    }
 }

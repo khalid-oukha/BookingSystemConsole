@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         HotelHandler hotelHandler = new HotelHandler();
-
+        HotelManagementMenu hotelManagementMenu = new HotelManagementMenu(scanner);
         int choice;
 
         do {
@@ -39,7 +39,8 @@ public class Main {
                     hotelHandler.findAll();
                     break;
                 case 3:
-                    hotelHandler.findById();
+                    Hotel hotel = hotelHandler.findById();
+                    hotelManagementMenu.displayMenu(hotel);
                     break;
                 case 4:
                     // Cancel reservation logic
