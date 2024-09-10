@@ -6,5 +6,4 @@ public interface ClientRepository {
     void addClient(Client client);
 
     Client findByCin(String cin);
-
 }

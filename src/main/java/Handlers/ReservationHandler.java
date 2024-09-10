@@ -4,6 +4,7 @@ import Entities.Client;
 import Entities.Hotel;
 import Entities.Reservation;
 import Entities.Room;
+import Services.ClientService;
 import Services.ReservationService;
 import commons.DateInterval;
 
@@ -15,9 +16,11 @@ public class ReservationHandler {
     private ReservationService reservationService;
     private final Scanner scanner = new Scanner(System.in);
     private RoomHandler roomHandler;
+    private ClientService clientService;
 
     public ReservationHandler() {
         reservationService = new ReservationService();
+        clientService = new ClientService();
         roomHandler = new RoomHandler();
     }
 
@@ -56,12 +59,18 @@ public class ReservationHandler {
             String clientCin = scanner.nextLine();
             System.out.print("Enter Client Name: ");
             String clientName = scanner.nextLine();
+
+            Client client = clientService.findClientByCin(clientCin);
+            if (client == null) {
+                client = new Client(clientCin, clientName);
+                clientService.addClient(client);
+            }
+
             System.out.println("Enter Start Date YYYY-MM-dd: ");
             LocalDate startDate = LocalDate.parse(scanner.nextLine());
             System.out.print("Enter End Date YYYY-MM-dd: ");
             LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
-            Client client = new Client(clientCin, clientName);
             DateInterval dateInterval = new DateInterval(startDate, endDate);
 
             Reservation reservation = new Reservation(client, room, dateInterval);
