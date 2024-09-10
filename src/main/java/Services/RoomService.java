@@ -2,10 +2,14 @@ package Services;
 
 import Entities.Hotel;
 import Entities.Room;
+import Enums.Availability;
 import repositories.room.RoomRepository;
 import repositories.room.RoomRepositoryImpl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoomService {
     private final RoomRepository roomRepository;
@@ -34,5 +38,11 @@ public class RoomService {
             System.out.println("Room not found.");
             return false;
         }
+    }
+
+    public HashMap<Integer,Room> getAvailableRooms(Hotel hotel) {
+        return findAll(hotel).stream()
+                .filter(room -> room.getAvailability() == Availability.AVAILABLE)
+                .collect(Collectors.toMap(Room::getNumber, room -> room, (oldValue, newValue) -> oldValue, HashMap::new));
     }
 }

@@ -56,6 +56,7 @@ public class HotelManagementMenu {
                     roomHandler.delete(hotel);
                     break;
                 case 6:
+                    roomHandler.getAvailableRooms(hotel);
                     break;
                 case 7:
                     break;

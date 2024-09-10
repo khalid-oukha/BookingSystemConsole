@@ -89,4 +89,16 @@ public class RoomHandler {
             System.out.println("Failed to delete room " + number + ".");
         }
     }
+
+    public void getAvailableRooms(Hotel hotel) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                    Available Rooms                                       =");
+        System.out.println("================================================================================================");
+        HashMap<Integer,Room> availableRooms = new HashMap<>();
+        availableRooms = roomService.getAvailableRooms(hotel);
+
+        for (Room room : availableRooms.values()) {
+            System.out.println("Room : " + room.getNumber() + " | Price : " + room.getPrice() + " | Type : " + room.getType());
+        }
+    }
 }
