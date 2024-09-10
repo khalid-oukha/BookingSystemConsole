@@ -36,7 +36,7 @@ public class RoomHandler {
 
     public void create(Hotel hotel) {
         System.out.println("================================================================================================");
-        System.out.println("=                                    Room List                                          =");
+        System.out.println("=                                    Create Room                                          =");
         System.out.println("================================================================================================");
 
         System.out.print("Enter Room Number : ");
@@ -56,5 +56,37 @@ public class RoomHandler {
         Room room = new Room(number,price, type, hotel);
         roomService.create(room, hotel);
         System.out.println("Room Created Successfully");
+    }
+
+    public void findById(Hotel hotel) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                    Find Room by number                                          =");
+        System.out.println("================================================================================================");
+
+        System.out.print("Enter Room Number : ");
+        int number = scanner.nextInt();
+        Room room = roomService.findById(number,hotel);
+        if (room !=null) {
+            System.out.println(" | Room : " + room.getNumber() + " | Price : " + room.getPrice() + " | Type : " + room.getType() + " | Available : " + room.getAvailability());
+        }else {
+            System.out.println("No Room found.");
+        }
+    }
+
+    public void delete(Hotel hotel) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                    Delete Room by Number                                       =");
+        System.out.println("================================================================================================");
+
+        System.out.print("Enter Room Number: ");
+        int number = scanner.nextInt();
+
+        boolean isDeleted = roomService.delete(number, hotel);
+
+        if (isDeleted) {
+            System.out.println("Room " + number + " successfully deleted.");
+        } else {
+            System.out.println("Failed to delete room " + number + ".");
+        }
     }
 }

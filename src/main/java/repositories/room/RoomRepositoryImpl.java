@@ -42,8 +42,28 @@ public class RoomRepositoryImpl implements RoomRepository {
 
 
     @Override
-    public Room findById(int id) {
-        return null;
+    public Room findById(int roomNumber, Hotel hotel) {
+        String sql = "SELECT * FROM rooms WHERE number = ? AND hotel_id = ?";
+        Room room = null;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, roomNumber);
+            statement.setInt(2, hotel.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int number = resultSet.getInt("number");
+                double price = resultSet.getDouble("price");
+                Availability availability = Availability.valueOf(resultSet.getString("availability"));
+                RoomType type = RoomType.valueOf(resultSet.getString("type"));
+
+                room = new Room(number, price, availability, type, hotel);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error finding room: " + e.getMessage());
+        }
+        return room;
     }
 
     @Override
@@ -78,7 +98,15 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     @Override
-    public void delete(Room room) {
-
+    public boolean  delete(int roomNumber) {
+        String sql = "DELETE FROM rooms WHERE number = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, roomNumber);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        }catch (SQLException e) {
+            System.out.println("Error deleting room: " + e.getMessage());
+        }
+        return false;
     }
 }

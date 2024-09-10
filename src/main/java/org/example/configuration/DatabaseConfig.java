@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseConfig {
     private static final DatabaseConfig INSTANCE = new DatabaseConfig();
     private static final String SERVER_NAME = "localhost";
-    private static final String PORT_NUMBER = "5432"; // Default PostgreSQL port
+    private static final String PORT_NUMBER = "5432";
     private static final String DB_NAME = "hotel";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "admin";
@@ -21,7 +21,7 @@ public class DatabaseConfig {
 
     public Connection getConnection() throws SQLException, ClassNotFoundException {
         if (connection == null) {
-            Class.forName("org.postgresql.Driver"); // PostgreSQL driver class
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://" + SERVER_NAME + ":" + PORT_NUMBER + "/" + DB_NAME,
                     USERNAME,

@@ -26,6 +26,7 @@ public class Room {
         this.type = type;
         this.hotel = hotel;
     }
+
     public int getNumber() {
         return number;
     }

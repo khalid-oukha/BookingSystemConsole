@@ -8,7 +8,7 @@ import repositories.room.RoomRepositoryImpl;
 import java.util.List;
 
 public class RoomService {
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
 
     public RoomService() {
         this.roomRepository = new RoomRepositoryImpl();
@@ -20,5 +20,19 @@ public class RoomService {
 
     public void create(Room room, Hotel hotel) {
         roomRepository.create(room,hotel);
+    }
+
+    public Room findById(int roomNumber, Hotel hotel) {
+        return roomRepository.findById(roomNumber, hotel);
+    }
+
+    public boolean delete(int roomNumber, Hotel hotel) {
+        Room room = roomRepository.findById(roomNumber, hotel);
+        if (room != null) {
+            return roomRepository.delete(roomNumber);
+        } else {
+            System.out.println("Room not found.");
+            return false;
+        }
     }
 }

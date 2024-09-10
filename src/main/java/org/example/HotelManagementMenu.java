@@ -24,13 +24,14 @@ public class HotelManagementMenu {
             System.out.println("=    1. Update Hotel Name                                                            ");
             System.out.println("=    2. View All Hotel Rooms                                                         ");
             System.out.println("=    3. Add Room to the Hotel                                                         ");
-            System.out.println("=    4. Delete Room from the Hotel                                                 ");
-            System.out.println("=    5. Search for available Rooms                                                   ");
-            System.out.println("=    6. View All Reservation                                                      ");
-            System.out.println("=    7. Make A Reservation                                                    ");
-            System.out.println("=    8. Update Reservation                                                 ");
-            System.out.println("=    9. Cancel Reservation                                                    ");
-            System.out.println("=    10. Delete Hotel                                                       ");
+            System.out.println("=    4. Find Room from the Hotel                                                 ");
+            System.out.println("=    5. Delete Hotel Room                                                ");
+            System.out.println("=    6. Search for available Rooms                                                   ");
+            System.out.println("=    7. View All Reservation                                                      ");
+            System.out.println("=    8. Make A Reservation                                                    ");
+            System.out.println("=    9. Update Reservation                                                 ");
+            System.out.println("=    10. Cancel Reservation                                                    ");
+            System.out.println("=    11. Delete Hotel                                                       ");
             System.out.println("=    0. Return to Main Menu                                                 ");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
@@ -49,8 +50,10 @@ public class HotelManagementMenu {
                     roomHandler.create(hotel);
                     break;
                 case 4:
+                    roomHandler.findById(hotel);
                     break;
                 case 5:
+                    roomHandler.delete(hotel);
                     break;
                 case 6:
                     break;
