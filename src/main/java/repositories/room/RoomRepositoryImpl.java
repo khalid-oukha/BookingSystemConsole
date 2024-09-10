@@ -93,9 +93,24 @@ public class RoomRepositoryImpl implements RoomRepository {
 
 
     @Override
-    public void update(Room room) {
+    public boolean update(Room room) {
+        String sql = "UPDATE rooms SET price = ?, availability = CAST(? AS availability), type = CAST(? AS roomtype) WHERE number = ? AND hotel_id = ?";
 
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, room.getPrice());
+            statement.setString(2, room.getAvailability().toString());
+            statement.setString(3, room.getType().toString());
+            statement.setInt(4, room.getNumber());
+            statement.setInt(5, room.getHotel().getId());
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error updating room: " + e.getMessage());
+        }
+        return false;
     }
+
 
     @Override
     public boolean  delete(int roomNumber) {
@@ -109,4 +124,5 @@ public class RoomRepositoryImpl implements RoomRepository {
         }
         return false;
     }
+
 }

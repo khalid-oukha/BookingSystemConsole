@@ -45,4 +45,16 @@ public class RoomService {
                 .filter(room -> room.getAvailability() == Availability.AVAILABLE)
                 .collect(Collectors.toMap(Room::getNumber, room -> room, (oldValue, newValue) -> oldValue, HashMap::new));
     }
+
+    public boolean update(Room room, Hotel hotel) {
+        Room existingRoom = roomRepository.findById(room.getNumber(), hotel);
+
+        if (existingRoom != null) {
+            return roomRepository.update(room);
+        } else {
+            System.out.println("Room not found.");
+            return false;
+        }
+    }
+
 }

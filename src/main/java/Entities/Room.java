@@ -47,6 +47,19 @@ public class Room {
         return hotel;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
+    }
+    public void setType(RoomType type) {
+        this.type = type;
+    }
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
     @Override
     public String toString() {
         return "-----------------------------\n" +

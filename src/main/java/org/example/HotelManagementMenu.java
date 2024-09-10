@@ -26,7 +26,8 @@ public class HotelManagementMenu {
             System.out.println("=    3. Add Room to the Hotel                                                         ");
             System.out.println("=    4. Find Room from the Hotel                                                 ");
             System.out.println("=    5. Delete Hotel Room                                                ");
-            System.out.println("=    6. Search for available Rooms                                                   ");
+            System.out.println("=    6. Update Hotel Room                                                  ");
+            System.out.println("=    7. Search for available Rooms                                                   ");
             System.out.println("=    7. View All Reservation                                                      ");
             System.out.println("=    8. Make A Reservation                                                    ");
             System.out.println("=    9. Update Reservation                                                 ");
@@ -56,9 +57,10 @@ public class HotelManagementMenu {
                     roomHandler.delete(hotel);
                     break;
                 case 6:
-                    roomHandler.getAvailableRooms(hotel);
+                    roomHandler.update(hotel);
                     break;
                 case 7:
+                    roomHandler.getAvailableRooms(hotel);
                     break;
                 case 8:
                     break;
