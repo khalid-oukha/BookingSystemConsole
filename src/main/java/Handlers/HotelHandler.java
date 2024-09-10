@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class HotelHandler {
 
-    private HotelService hotelService;
-    private Scanner scanner = new Scanner(System.in);
+    private final HotelService hotelService;
+    private final Scanner scanner = new Scanner(System.in);
 
     public HotelHandler() {
         this.hotelService = new HotelService();

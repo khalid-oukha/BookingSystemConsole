@@ -2,6 +2,7 @@ package org.example;
 
 import Entities.Hotel;
 import Handlers.HotelHandler;
+import Handlers.ReservationHandler;
 import Handlers.RoomHandler;
 
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class HotelManagementMenu {
 
     HotelHandler hotelHandler = new HotelHandler();
     RoomHandler roomHandler = new RoomHandler();
+    ReservationHandler reservationHandler = new ReservationHandler();
     public HotelManagementMenu(Scanner scanner) {
         this.scanner = scanner;
     }
@@ -28,11 +30,11 @@ public class HotelManagementMenu {
             System.out.println("=    5. Delete Hotel Room                                                ");
             System.out.println("=    6. Update Hotel Room                                                  ");
             System.out.println("=    7. Search for available Rooms                                                   ");
-            System.out.println("=    7. View All Reservation                                                      ");
-            System.out.println("=    8. Make A Reservation                                                    ");
-            System.out.println("=    9. Update Reservation                                                 ");
-            System.out.println("=    10. Cancel Reservation                                                    ");
-            System.out.println("=    11. Delete Hotel                                                       ");
+            System.out.println("=    8. View All Reservation                                                      ");
+            System.out.println("=    9. Make A Reservation                                                    ");
+            System.out.println("=    10. Update Reservation                                                 ");
+            System.out.println("=    11. Cancel Reservation                                                    ");
+            System.out.println("=    12. Delete Hotel                                                       ");
             System.out.println("=    0. Return to Main Menu                                                 ");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
@@ -63,6 +65,7 @@ public class HotelManagementMenu {
                     roomHandler.getAvailableRooms(hotel);
                     break;
                 case 8:
+                    reservationHandler.getAllReservations(hotel);
                     break;
                 case 9:
                     break;

@@ -16,4 +16,21 @@ public class Reservation {
         this.date = date;
         this.numberOfDays = date.getNumberOfDays();
     }
+
+    public int getId() {
+        return id;
+    }
+    public Client getClient() {
+        return client;
+    }
+    public Room getRoom() {
+        return room;
+    }
+    public DateInterval getDate() {
+        return date;
+    }
+    public long getNumberOfDays() {
+        return numberOfDays;
+    }
+
 }
