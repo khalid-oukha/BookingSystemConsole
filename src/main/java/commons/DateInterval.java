@@ -8,27 +8,45 @@ public class DateInterval {
     private LocalDate endDate;
 
     public DateInterval(LocalDate startDate, LocalDate endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+        if (startDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Start date cannot be before today");
+        } else if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start date cannot be after end date");
+        } else if (endDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("End date cannot be before today");
+        } else {
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
     }
 
     public LocalDate getStartDate() {
-        return startDate;
+        return this.startDate;
     }
 
     public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+        if (startDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Start date cannot be before today");
+        } else if (startDate.isAfter(this.endDate)) {
+            throw new IllegalArgumentException("Start date cannot be after end date");
+        } else {
+            this.startDate = startDate;
+        }
     }
 
     public LocalDate getEndDate() {
-        return endDate;
+        return this.endDate;
     }
 
     public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+        if (endDate.isBefore(this.startDate)) {
+            throw new IllegalArgumentException("End date cannot be before start date");
+        } else {
+            this.endDate = endDate;
+        }
     }
 
-    public long getNumberOfDays() {
+    public long getNumberOfDays(LocalDate startDate, LocalDate endDate) {
         return ChronoUnit.DAYS.between(startDate, endDate);
     }
 }

@@ -6,7 +6,6 @@ import Enums.Availability;
 import Enums.RoomType;
 import Services.RoomService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -26,9 +25,9 @@ public class RoomHandler {
 
         List<Room> rooms;
         rooms = roomService.findAll(hotel);
-        if(rooms.isEmpty()){
+        if (rooms.isEmpty()) {
             System.out.println("No Rooms found.");
-        }else {
+        } else {
             for (Room room : rooms) {
                 System.out.println(" | Room : " + room.getNumber() + " | Price : " + room.getPrice() + " | Type : " + room.getType() + " | Available : " + room.getAvailability());
             }
@@ -54,23 +53,25 @@ public class RoomHandler {
         int option = scanner.nextInt();
         RoomType type = RoomType.values()[option];
 
-        Room room = new Room(number,price, type, hotel);
+        Room room = new Room(number, price, type, hotel);
         roomService.create(room, hotel);
         System.out.println("Room Created Successfully");
     }
 
-    public void findById(Hotel hotel) {
+    public Room findById(Hotel hotel) {
         System.out.println("================================================================================================");
         System.out.println("=                                    Find Room by number                                          =");
         System.out.println("================================================================================================");
 
         System.out.print("Enter Room Number : ");
         int number = scanner.nextInt();
-        Room room = roomService.findById(number,hotel);
-        if (room !=null) {
+        Room room = roomService.findById(number, hotel);
+        if (room != null) {
             System.out.println(" | Room : " + room.getNumber() + " | Price : " + room.getPrice() + " | Type : " + room.getType() + " | Available : " + room.getAvailability());
-        }else {
+            return room;
+        } else {
             System.out.println("No Room found.");
+            return null;
         }
     }
 
@@ -95,7 +96,7 @@ public class RoomHandler {
         System.out.println("================================================================================================");
         System.out.println("=                                    Available Rooms                                       =");
         System.out.println("================================================================================================");
-        HashMap<Integer,Room> availableRooms = new HashMap<>();
+        HashMap<Integer, Room> availableRooms = new HashMap<>();
         availableRooms = roomService.getAvailableRooms(hotel);
 
         for (Room room : availableRooms.values()) {

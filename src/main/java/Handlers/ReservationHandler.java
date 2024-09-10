@@ -1,18 +1,24 @@
 package Handlers;
 
+import Entities.Client;
 import Entities.Hotel;
 import Entities.Reservation;
+import Entities.Room;
 import Services.ReservationService;
+import commons.DateInterval;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class ReservationHandler {
     private ReservationService reservationService;
     private final Scanner scanner = new Scanner(System.in);
+    private RoomHandler roomHandler;
 
     public ReservationHandler() {
         reservationService = new ReservationService();
+        roomHandler = new RoomHandler();
     }
 
     public void getAllReservations(Hotel hotel) {
@@ -38,4 +44,36 @@ public class ReservationHandler {
             }
         }
     }
+
+    public void saveReservation(Hotel hotel) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                    Save Reservation                                       =");
+        System.out.println("================================================================================================");
+        roomHandler.findAll(hotel);
+        Room room = roomHandler.findById(hotel);
+        if (room != null) {
+            System.out.print("Enter Client CIN: ");
+            String clientCin = scanner.nextLine();
+            System.out.print("Enter Client Name: ");
+            String clientName = scanner.nextLine();
+            System.out.println("Enter Start Date YYYY-MM-dd: ");
+            LocalDate startDate = LocalDate.parse(scanner.nextLine());
+            System.out.print("Enter End Date YYYY-MM-dd: ");
+            LocalDate endDate = LocalDate.parse(scanner.nextLine());
+
+            Client client = new Client(clientCin, clientName);
+            DateInterval dateInterval = new DateInterval(startDate, endDate);
+
+            Reservation reservation = new Reservation(client, room, dateInterval);
+
+            if (reservationService.saveReservation(reservation, hotel)) {
+                System.out.println("Reservation has been saved successfully.");
+            } else {
+                System.out.println("Reservation could not be saved.");
+            }
+        } else {
+            System.out.println("No room found for this hotel.");
+        }
+    }
+
 }

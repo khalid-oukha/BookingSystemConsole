@@ -6,7 +6,6 @@ import Enums.Availability;
 import repositories.room.RoomRepository;
 import repositories.room.RoomRepositoryImpl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ public class RoomService {
     }
 
     public void create(Room room, Hotel hotel) {
-        roomRepository.create(room,hotel);
+        roomRepository.create(room, hotel);
     }
 
     public Room findById(int roomNumber, Hotel hotel) {
@@ -40,7 +39,7 @@ public class RoomService {
         }
     }
 
-    public HashMap<Integer,Room> getAvailableRooms(Hotel hotel) {
+    public HashMap<Integer, Room> getAvailableRooms(Hotel hotel) {
         return findAll(hotel).stream()
                 .filter(room -> room.getAvailability() == Availability.AVAILABLE)
                 .collect(Collectors.toMap(Room::getNumber, room -> room, (oldValue, newValue) -> oldValue, HashMap::new));
@@ -55,6 +54,10 @@ public class RoomService {
             System.out.println("Room not found.");
             return false;
         }
+    }
+
+    public boolean updateRoomAvailability(int roomNumber, Availability availability, Hotel hotel) {
+        return roomRepository.updateRoomAvailability(roomNumber, availability, hotel);
     }
 
 }

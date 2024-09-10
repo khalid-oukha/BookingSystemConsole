@@ -4,15 +4,12 @@ import Entities.Client;
 import Entities.Hotel;
 import Entities.Reservation;
 import Entities.Room;
-import Enums.Availability;
-import Enums.RoomType;
 import commons.DateInterval;
 import org.example.configuration.DatabaseConfig;
 import repositories.room.RoomRepository;
 import repositories.room.RoomRepositoryImpl;
 
 import java.sql.*;
-import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class ReservationRepositoryImpl implements ReservationRepository {
@@ -23,7 +20,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public ReservationRepositoryImpl() {
         try {
             this.connection = DatabaseConfig.getInstance().getConnection();
-        }catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Error establishing connection: " + e.getMessage());
         }
         this.roomRepository = new RoomRepositoryImpl();
@@ -56,7 +53,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                 );
 
                 DateInterval dateInterval = new DateInterval(startDate.toLocalDate(), endDate.toLocalDate());
-                Reservation reservation = new Reservation(id, client, room, dateInterval);
+                Reservation reservation = new Reservation(client, room, dateInterval);
 
                 reservations.add(reservation);
             }
@@ -65,6 +62,27 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         }
 
         return reservations;
+    }
+
+    @Override
+    public Boolean saveReservation(Reservation reservation, Hotel hotel) {
+        String sql = "INSERT INTO reservations (room_number, client_cin, date_start, date_end,number_of_days) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, reservation.getRoom().getNumber());
+            statement.setString(2, reservation.getClient().getCin());
+            statement.setDate(3, Date.valueOf(reservation.getDate().getStartDate()));
+            statement.setDate(4, Date.valueOf(reservation.getDate().getEndDate()));
+            statement.setLong(5, reservation.getNumberOfDays());
+
+            if (statement.executeUpdate() == 1) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error saving reservation: " + e.getMessage());
+        }
+        return false;
     }
 
 }

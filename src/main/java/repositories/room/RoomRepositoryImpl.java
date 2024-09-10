@@ -6,17 +6,21 @@ import Enums.Availability;
 import Enums.RoomType;
 import org.example.configuration.DatabaseConfig;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoomRepositoryImpl implements RoomRepository {
 
     private Connection connection;
+
     public RoomRepositoryImpl() {
         try {
             this.connection = DatabaseConfig.getInstance().getConnection();
-        }catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Error establishing connection: " + e.getMessage());
         }
     }
@@ -113,16 +117,32 @@ public class RoomRepositoryImpl implements RoomRepository {
 
 
     @Override
-    public boolean  delete(int roomNumber) {
+    public boolean delete(int roomNumber) {
         String sql = "DELETE FROM rooms WHERE number = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, roomNumber);
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Error deleting room: " + e.getMessage());
         }
         return false;
     }
 
+    @Override
+    public boolean updateRoomAvailability(int roomNumber, Availability availability, Hotel hotel) {
+        String sql = "UPDATE rooms SET availability = CAST(? AS availability) WHERE number = ? AND hotel_id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, availability.toString());
+            statement.setInt(2, roomNumber);
+            statement.setInt(3, hotel.getId());
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error updating room availability: " + e.getMessage());
+        }
+        return false;
+    }
 }

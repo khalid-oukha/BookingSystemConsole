@@ -8,11 +8,12 @@ import Handlers.RoomHandler;
 import java.util.Scanner;
 
 public class HotelManagementMenu {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     HotelHandler hotelHandler = new HotelHandler();
     RoomHandler roomHandler = new RoomHandler();
     ReservationHandler reservationHandler = new ReservationHandler();
+
     public HotelManagementMenu(Scanner scanner) {
         this.scanner = scanner;
     }
@@ -31,7 +32,7 @@ public class HotelManagementMenu {
             System.out.println("=    6. Update Hotel Room                                                  ");
             System.out.println("=    7. Search for available Rooms                                                   ");
             System.out.println("=    8. View All Reservation                                                      ");
-            System.out.println("=    9. Make A Reservation                                                    ");
+            System.out.println("=    9. Make A Reservation                                                  ");
             System.out.println("=    10. Update Reservation                                                 ");
             System.out.println("=    11. Cancel Reservation                                                    ");
             System.out.println("=    12. Delete Hotel                                                       ");
@@ -68,6 +69,7 @@ public class HotelManagementMenu {
                     reservationHandler.getAllReservations(hotel);
                     break;
                 case 9:
+                    reservationHandler.saveReservation(hotel);
                     break;
                 case 10:
                     hotelHandler.delete(hotel);
