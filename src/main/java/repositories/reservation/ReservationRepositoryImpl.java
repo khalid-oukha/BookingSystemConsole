@@ -28,10 +28,11 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public LinkedList<Reservation> findAllReservations(Hotel hotel) {
-        String sql = " SELECT rv.*, c.* FROM reservations rv " +
-                "INNER JOIN clients c " +
-                "ON rv.client_cin = c.cin " +
+        String sql = "SELECT rv.*, c.*, r.* FROM reservations rv " +
+                "INNER JOIN rooms r ON rv.room_number = r.number " +
+                "INNER JOIN clients c ON rv.client_cin = c.cin " +
                 "WHERE r.hotel_id = ?";
+
 
         LinkedList<Reservation> reservations = new LinkedList<>();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
