@@ -72,6 +72,7 @@ public class HotelManagementMenu {
                     reservationHandler.saveReservation(hotel);
                     break;
                 case 10:
+                    reservationHandler.updateReservation(hotel);
                     break;
                 case 11:
                     reservationHandler.cancelReservation(hotel);

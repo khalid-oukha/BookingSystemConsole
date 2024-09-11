@@ -13,10 +13,10 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class ReservationHandler {
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
     private final Scanner scanner = new Scanner(System.in);
-    private RoomHandler roomHandler;
-    private ClientService clientService;
+    private final RoomHandler roomHandler;
+    private final ClientService clientService;
 
     public ReservationHandler() {
         reservationService = new ReservationService();
@@ -43,6 +43,7 @@ public class ReservationHandler {
                 System.out.println("Start Date    : " + reservation.getDate().getStartDate());
                 System.out.println("End Date      : " + reservation.getDate().getEndDate());
                 System.out.println("Days Reserved : " + reservation.getNumberOfDays());
+                System.out.println("Total price : " + reservation.getTotalPrice() + "DH");
                 System.out.println("------------------------------------------------------------------------------------------");
             }
         }
@@ -104,6 +105,7 @@ public class ReservationHandler {
             System.out.println("Start Date    : " + reservation.getDate().getStartDate());
             System.out.println("End Date      : " + reservation.getDate().getEndDate());
             System.out.println("Days Reserved : " + reservation.getNumberOfDays());
+            System.out.println("Total price : " + reservation.getRoom().getPrice() * reservation.getNumberOfDays() + "DH");
             System.out.println("------------------------------------------------------------------------------------------");
 
             System.out.println("Are you sure you want cancel reservation : ");
@@ -139,6 +141,8 @@ public class ReservationHandler {
             System.out.println("Start Date    : " + reservation.getDate().getStartDate());
             System.out.println("End Date      : " + reservation.getDate().getEndDate());
             System.out.println("Days Reserved : " + reservation.getNumberOfDays());
+            System.out.println("Total price : " + reservation.getRoom().getPrice() * reservation.getNumberOfDays() + "DH");
+
             System.out.println("------------------------------------------------------------------------------------------");
 
             System.out.println("Enter new Start Date (YYYY-MM-dd) or press Enter to skip: ");
@@ -164,12 +168,13 @@ public class ReservationHandler {
                 newRoom = roomHandler.findById(hotel);
             }
 
-            Reservation updatedReservation = new Reservation(reservation.getId(), reservation.getClient(), newRoom, dateInterval);
+
+            Reservation updatedReservation = new Reservation(reservation.getClient(), newRoom, dateInterval);
 
             if (reservationService.updateReservation(updatedReservation, hotel)) {
                 System.out.println("Reservation has been updated successfully.");
             } else {
-                System.out.println("Failed to update reservation.");
+                System.out.println("Failed to update reservation Room not available.");
             }
 
         } else {

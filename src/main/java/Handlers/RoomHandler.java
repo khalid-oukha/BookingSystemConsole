@@ -31,6 +31,7 @@ public class RoomHandler {
             for (Room room : rooms) {
                 System.out.println(" | Room : " + room.getNumber() + " | Price : " + room.getPrice() + " | Type : " + room.getType() + " | Available : " + room.getAvailability());
             }
+            System.out.println("Total Rooms : " + rooms.size());
         }
     }
 
@@ -67,7 +68,7 @@ public class RoomHandler {
         int number = scanner.nextInt();
         Room room = roomService.findById(number, hotel);
         if (room != null) {
-            System.out.println(" | Room : " + room.getNumber() + " | Price : " + room.getPrice() + " | Type : " + room.getType() + " | Available : " + room.getAvailability());
+            System.out.println(" | Room : " + room.getNumber() + " | Price per day : " + room.getPrice() + " | Type : " + room.getType() + " | Available : " + room.getAvailability());
             return room;
         } else {
             System.out.println("No Room found.");

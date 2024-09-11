@@ -44,6 +44,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                 int roomNumber = resultSet.getInt("room_number");
                 Date startDate = resultSet.getDate("date_start");
                 Date endDate = resultSet.getDate("date_end");
+                double totalPrice = resultSet.getDouble("total_price");
 
                 Room room = roomRepository.findById(roomNumber, hotel);
 
@@ -53,7 +54,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                 );
 
                 DateInterval dateInterval = new DateInterval(startDate.toLocalDate(), endDate.toLocalDate());
-                Reservation reservation = new Reservation(id, client, room, dateInterval);
+                Reservation reservation = new Reservation(id, client, room, dateInterval, totalPrice);
 
                 reservations.add(reservation);
             }
@@ -66,7 +67,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public Boolean saveReservation(Reservation reservation, Hotel hotel) {
-        String sql = "INSERT INTO reservations (room_number, client_cin, date_start, date_end,number_of_days) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reservations (room_number, client_cin, date_start, date_end, number_of_days, total_price) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, reservation.getRoom().getNumber());
@@ -74,16 +75,15 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             statement.setDate(3, Date.valueOf(reservation.getDate().getStartDate()));
             statement.setDate(4, Date.valueOf(reservation.getDate().getEndDate()));
             statement.setLong(5, reservation.getNumberOfDays());
+            statement.setDouble(6, reservation.getTotalPrice());
 
-            if (statement.executeUpdate() == 1) {
-                return true;
-            }
-
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             System.out.println("Error saving reservation: " + e.getMessage());
         }
         return false;
     }
+
 
     public Boolean cancelReservation(Reservation reservation) {
         String sql = "DELETE FROM reservations WHERE id = ?";
@@ -109,7 +109,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                 int roomNumber = resultSet.getInt("room_number");
                 Date startDate = resultSet.getDate("date_start");
                 Date endDate = resultSet.getDate("date_end");
-
+                double totalPrice = resultSet.getDouble("total_price");
                 Room room = roomRepository.findById(roomNumber, hotel);
 
                 Client client = new Client(
@@ -118,7 +118,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                 );
 
                 DateInterval dateInterval = new DateInterval(startDate.toLocalDate(), endDate.toLocalDate());
-                return new Reservation(id, client, room, dateInterval);
+                return new Reservation(id, client, room, dateInterval, totalPrice);
             }
 
         } catch (SQLException e) {
@@ -129,7 +129,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public Boolean updateReservation(Reservation reservation, Hotel hotel) {
-        String sql = "UPDATE reservations SET room_number = ?, client_cin = ?, date_start = ?, date_end = ?, number_of_days = ? WHERE id = ?";
+        String sql = "UPDATE reservations SET room_number = ?, client_cin = ?, date_start = ?, date_end = ?, number_of_days = ?, total_price = ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, reservation.getRoom().getNumber());
@@ -137,7 +137,8 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             statement.setDate(3, Date.valueOf(reservation.getDate().getStartDate()));
             statement.setDate(4, Date.valueOf(reservation.getDate().getEndDate()));
             statement.setLong(5, reservation.getNumberOfDays());
-            statement.setInt(6, reservation.getId());
+            statement.setDouble(6, reservation.getTotalPrice());
+            statement.setInt(7, reservation.getId());
 
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
