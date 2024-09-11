@@ -48,4 +48,19 @@ public class ReservationService {
         }
         return false;
     }
+
+    public boolean updateReservation(Reservation updatedReservation, Hotel hotel) {
+        Reservation oldReservation = findReservationById(hotel, updatedReservation.getId());
+
+        if (oldReservation != null) {
+            if (oldReservation.getRoom().getNumber() != updatedReservation.getRoom().getNumber()) {
+                roomService.updateRoomAvailability(oldReservation.getRoom().getNumber(), Availability.AVAILABLE, hotel);
+                roomService.updateRoomAvailability(updatedReservation.getRoom().getNumber(), Availability.NOT_AVAILABLE, hotel);
+            }
+
+            return reservationRepository.updateReservation(updatedReservation, hotel);
+        }
+        return false;
+    }
+
 }

@@ -14,4 +14,6 @@ public interface ReservationRepository {
     Boolean cancelReservation(Reservation reservation);
 
     Reservation findReservationById(int id, Hotel hotel);
+
+    Boolean updateReservation(Reservation reservation, Hotel hotel);
 }

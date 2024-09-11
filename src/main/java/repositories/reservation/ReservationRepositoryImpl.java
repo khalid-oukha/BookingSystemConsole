@@ -127,4 +127,24 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         return null;
     }
 
+    @Override
+    public Boolean updateReservation(Reservation reservation, Hotel hotel) {
+        String sql = "UPDATE reservations SET room_number = ?, client_cin = ?, date_start = ?, date_end = ?, number_of_days = ? WHERE id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, reservation.getRoom().getNumber());
+            statement.setString(2, reservation.getClient().getCin());
+            statement.setDate(3, Date.valueOf(reservation.getDate().getStartDate()));
+            statement.setDate(4, Date.valueOf(reservation.getDate().getEndDate()));
+            statement.setLong(5, reservation.getNumberOfDays());
+            statement.setInt(6, reservation.getId());
+
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println("Error updating reservation: " + e.getMessage());
+        }
+        return false;
+    }
+
+
 }

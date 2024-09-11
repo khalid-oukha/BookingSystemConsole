@@ -120,4 +120,62 @@ public class ReservationHandler {
 
     }
 
+    public void updateReservation(Hotel hotel) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                    Update Reservation                                       =");
+        System.out.println("================================================================================================");
+
+        System.out.print("Enter Reservation ID: ");
+        int reservationID = scanner.nextInt();
+        Reservation reservation = reservationService.findReservationById(hotel, reservationID);
+
+        if (reservation != null) {
+            System.out.println("------------------------------------------------------------------------------------------");
+            System.out.println("Reservation ID: " + reservation.getId());
+            System.out.println("Client CIN    : " + reservation.getClient().getCin());
+            System.out.println("Client Name   : " + reservation.getClient().getFullName());
+            System.out.println("Room Number   : " + reservation.getRoom().getNumber());
+            System.out.println("Room Type     : " + reservation.getRoom().getType());
+            System.out.println("Start Date    : " + reservation.getDate().getStartDate());
+            System.out.println("End Date      : " + reservation.getDate().getEndDate());
+            System.out.println("Days Reserved : " + reservation.getNumberOfDays());
+            System.out.println("------------------------------------------------------------------------------------------");
+
+            System.out.println("Enter new Start Date (YYYY-MM-dd) or press Enter to skip: ");
+            scanner.nextLine();
+            String newStartDate = scanner.nextLine();
+            System.out.println("Enter new End Date (YYYY-MM-dd) or press Enter to skip: ");
+            String newEndDate = scanner.nextLine();
+
+            DateInterval dateInterval = reservation.getDate();
+
+            if (!newStartDate.isEmpty() && !newEndDate.isEmpty()) {
+                LocalDate startDate = LocalDate.parse(newStartDate);
+                LocalDate endDate = LocalDate.parse(newEndDate);
+                dateInterval = new DateInterval(startDate, endDate);
+            }
+
+            System.out.println("Do you want to change the room? (1-Yes / 2-No): ");
+            int changeRoom = scanner.nextInt();
+            Room newRoom = reservation.getRoom();
+
+            if (changeRoom == 1) {
+                roomHandler.findAll(hotel);
+                newRoom = roomHandler.findById(hotel);
+            }
+
+            Reservation updatedReservation = new Reservation(reservation.getId(), reservation.getClient(), newRoom, dateInterval);
+
+            if (reservationService.updateReservation(updatedReservation, hotel)) {
+                System.out.println("Reservation has been updated successfully.");
+            } else {
+                System.out.println("Failed to update reservation.");
+            }
+
+        } else {
+            System.out.println("Reservation not found.");
+        }
+    }
+
+
 }
