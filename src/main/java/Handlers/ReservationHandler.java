@@ -46,6 +46,7 @@ public class ReservationHandler {
                 System.out.println("Total price : " + reservation.getTotalPrice() + "DH");
                 System.out.println("------------------------------------------------------------------------------------------");
             }
+            System.out.println("All reservations : " + reservations.size());
         }
     }
 
