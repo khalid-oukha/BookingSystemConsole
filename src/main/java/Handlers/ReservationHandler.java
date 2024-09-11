@@ -78,11 +78,46 @@ public class ReservationHandler {
             if (reservationService.saveReservation(reservation, hotel)) {
                 System.out.println("Reservation has been saved successfully.");
             } else {
-                System.out.println("Reservation could not be saved.");
+                System.out.println("Reservation could not be saved Room not available.");
             }
         } else {
             System.out.println("No room found for this hotel.");
         }
+    }
+
+    public void cancelReservation(Hotel hotel) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                    Cancel Reservation                                       =");
+        System.out.println("================================================================================================");
+
+        System.out.print("Enter Reservation ID: ");
+        int reservationID = scanner.nextInt();
+        Reservation reservation = reservationService.findReservationById(hotel, reservationID);
+
+        if (reservation != null) {
+            System.out.println("------------------------------------------------------------------------------------------");
+            System.out.println("Reservation ID: " + reservation.getId());
+            System.out.println("Client CIN    : " + reservation.getClient().getCin());
+            System.out.println("Client Name   : " + reservation.getClient().getFullName());
+            System.out.println("Room Number   : " + reservation.getRoom().getNumber());
+            System.out.println("Room Type     : " + reservation.getRoom().getType());
+            System.out.println("Start Date    : " + reservation.getDate().getStartDate());
+            System.out.println("End Date      : " + reservation.getDate().getEndDate());
+            System.out.println("Days Reserved : " + reservation.getNumberOfDays());
+            System.out.println("------------------------------------------------------------------------------------------");
+
+            System.out.println("Are you sure you want cancel reservation : ");
+            System.out.println(" 1-YES ");
+            System.out.println(" 2-NO ");
+            if (scanner.nextInt() == 1) {
+                if (reservationService.deleteReservation(hotel, reservationID)) {
+                    System.out.println("Reservation has been cancelled successfully.");
+                } else {
+                    System.out.println("Reservation could not be cancelled.");
+                }
+            }
+        }
+
     }
 
 }

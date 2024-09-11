@@ -42,7 +42,6 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 int roomNumber = resultSet.getInt("room_number");
-                String clientCin = resultSet.getString("client_cin");
                 Date startDate = resultSet.getDate("date_start");
                 Date endDate = resultSet.getDate("date_end");
 
@@ -54,7 +53,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                 );
 
                 DateInterval dateInterval = new DateInterval(startDate.toLocalDate(), endDate.toLocalDate());
-                Reservation reservation = new Reservation(client, room, dateInterval);
+                Reservation reservation = new Reservation(id, client, room, dateInterval);
 
                 reservations.add(reservation);
             }
@@ -84,6 +83,48 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             System.out.println("Error saving reservation: " + e.getMessage());
         }
         return false;
+    }
+
+    public Boolean cancelReservation(Reservation reservation) {
+        String sql = "DELETE FROM reservations WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, reservation.getId());
+
+            if (statement.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting reservation: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public Reservation findReservationById(int id, Hotel hotel) {
+        String sql = "SELECT * FROM reservations r inner join clients c on r.client_cin = c.cin  WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int roomNumber = resultSet.getInt("room_number");
+                Date startDate = resultSet.getDate("date_start");
+                Date endDate = resultSet.getDate("date_end");
+
+                Room room = roomRepository.findById(roomNumber, hotel);
+
+                Client client = new Client(
+                        resultSet.getString("cin"),
+                        resultSet.getString("full_name")
+                );
+
+                DateInterval dateInterval = new DateInterval(startDate.toLocalDate(), endDate.toLocalDate());
+                return new Reservation(id, client, room, dateInterval);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting reservation: " + e.getMessage());
+        }
+        return null;
     }
 
 }

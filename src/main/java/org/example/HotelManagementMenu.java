@@ -72,10 +72,12 @@ public class HotelManagementMenu {
                     reservationHandler.saveReservation(hotel);
                     break;
                 case 10:
-                    hotelHandler.delete(hotel);
                     break;
                 case 11:
-                    System.out.println("Returning to main menu.");
+                    reservationHandler.cancelReservation(hotel);
+                    break;
+                case 12:
+                    hotelHandler.delete(hotel);
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
