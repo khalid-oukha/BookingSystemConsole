@@ -36,6 +36,7 @@ public class HotelManagementMenu {
             System.out.println("=    10. Update Reservation                                                 ");
             System.out.println("=    11. Cancel Reservation                                                    ");
             System.out.println("=    12. Delete Hotel                                                       ");
+            System.out.println("=    13. Statistics                                                       ");
             System.out.println("=    0. Return to Main Menu                                                 ");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
@@ -79,6 +80,9 @@ public class HotelManagementMenu {
                     break;
                 case 12:
                     hotelHandler.delete(hotel);
+                    break;
+                case 13:
+                    reservationHandler.statistics(hotel);
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");

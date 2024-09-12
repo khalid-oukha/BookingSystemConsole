@@ -6,6 +6,7 @@ import Entities.Reservation;
 import Entities.Room;
 import Services.ClientService;
 import Services.ReservationService;
+import Services.StatisticsService;
 import commons.DateInterval;
 
 import java.time.LocalDate;
@@ -17,11 +18,13 @@ public class ReservationHandler {
     private final Scanner scanner = new Scanner(System.in);
     private final RoomHandler roomHandler;
     private final ClientService clientService;
+    private final StatisticsService statisticsService;
 
     public ReservationHandler() {
         reservationService = new ReservationService();
         clientService = new ClientService();
         roomHandler = new RoomHandler();
+        statisticsService = new StatisticsService();
     }
 
     public void getAllReservations(Hotel hotel) {
@@ -183,5 +186,13 @@ public class ReservationHandler {
         }
     }
 
+    public void statistics(Hotel hotel) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                    Statistics                                       =");
+        System.out.println("================================================================================================");
+
+        System.out.println("THIS MONTH INCOME : " + statisticsService.monthlyIncome(hotel));
+        System.out.println("THIS YEAR INCOME : " + statisticsService.yearIncome(hotel));
+    }
 
 }
